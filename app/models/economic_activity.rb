@@ -1,0 +1,2 @@
+class EconomicActivity < ApplicationRecord
+end

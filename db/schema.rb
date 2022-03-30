@@ -10,8 +10,71 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_30_023339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "economic_activities", force: :cascade do |t|
+    t.string "name"
+    t.string "acronym"
+    t.string "slug"
+    t.string "sankey_grouping"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "emission_types", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "gases", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "levels", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.string "acronym"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sectors", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "base_color"
+    t.string "level_2_description"
+    t.string "level_3_description"
+    t.string "level_4_description"
+    t.string "level_5_description"
+    t.string "level_6_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "territories", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.integer "parent_id"
+    t.string "territory_type"
+    t.integer "ibge_cod"
+    t.string "acronym"
+    t.string "flag_path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end

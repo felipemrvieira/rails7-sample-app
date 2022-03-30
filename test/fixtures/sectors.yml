@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  slug: MyString
+  base_color: MyString
+  level_2_description: MyString
+  level_3_description: MyString
+  level_4_description: MyString
+  level_5_description: MyString
+  level_6_description: MyString
+
+two:
+  name: MyString
+  slug: MyString
+  base_color: MyString
+  level_2_description: MyString
+  level_3_description: MyString
+  level_4_description: MyString
+  level_5_description: MyString
+  level_6_description: MyString
