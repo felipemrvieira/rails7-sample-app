@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_30_023339) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_30_032240) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_30_023339) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "emissions", force: :cascade do |t|
+    t.integer "year"
+    t.decimal "value"
+    t.bigint "emission_type_id", null: false
+    t.bigint "territory_id", null: false
+    t.bigint "sector_id", null: false
+    t.bigint "economic_activity_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "gas_id"
+    t.integer "level_2_id"
+    t.integer "level_3_id"
+    t.integer "level_4_id"
+    t.integer "level_5_id"
+    t.integer "level_6_id"
+    t.index ["economic_activity_id"], name: "index_emissions_on_economic_activity_id"
+    t.index ["emission_type_id"], name: "index_emissions_on_emission_type_id"
+    t.index ["product_id"], name: "index_emissions_on_product_id"
+    t.index ["sector_id"], name: "index_emissions_on_sector_id"
+    t.index ["territory_id"], name: "index_emissions_on_territory_id"
   end
 
   create_table "gases", force: :cascade do |t|
@@ -77,4 +100,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_30_023339) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "emissions", "economic_activities"
+  add_foreign_key "emissions", "emission_types"
+  add_foreign_key "emissions", "products"
+  add_foreign_key "emissions", "sectors"
+  add_foreign_key "emissions", "territories"
 end

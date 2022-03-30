@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  year: 1
+  value: 9.99
+  emission_type: one
+  territory: one
+  sector: one
+  gas: one
+  economic_activity: one
+  product: one
+
+two:
+  year: 1
+  value: 9.99
+  emission_type: two
+  territory: two
+  sector: two
+  gas: two
+  economic_activity: two
+  product: two
