@@ -10,9 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_30_032240) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_05_143359) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admins", force: :cascade do |t|
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.boolean "allow_password_change", default: false
+    t.datetime "remember_created_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.string "name"
+    t.string "nickname"
+    t.string "image"
+    t.string "email"
+    t.json "tokens"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_admins_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_admins_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_admins_on_uid_and_provider", unique: true
+  end
 
   create_table "economic_activities", force: :cascade do |t|
     t.string "name"
@@ -92,12 +117,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_30_032240) do
     t.string "name"
     t.string "slug"
     t.integer "parent_id"
-    t.string "territory_type"
     t.integer "ibge_cod"
     t.string "acronym"
     t.string "flag_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "territory_type", null: false
   end
 
   add_foreign_key "emissions", "economic_activities"

@@ -4,7 +4,6 @@ class CreateTerritories < ActiveRecord::Migration[7.0]
       t.string :name
       t.string :slug
       t.integer :parent_id
-      t.string :territory_type
       t.integer :ibge_cod
       t.string :acronym
       t.string :flag_path
