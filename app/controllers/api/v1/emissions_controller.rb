@@ -7,8 +7,10 @@ class Api::V1::EmissionsController < ApplicationController
   end
 
   def create
+    sector = Sector.where(name: params[:sector_name])
+
     file = get_file
-    AddEmissionsJob.new.perform(file)
+    AddEmissionsJob.new.perform(file, sector.first.id)
     render json: {status: file}, status: :created
   end
 
