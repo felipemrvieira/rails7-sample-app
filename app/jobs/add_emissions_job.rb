@@ -1,5 +1,6 @@
 class AddEmissionsJob
   require 'csv'
+  require 'bigdecimal'
   include Sidekiq::Worker
   sidekiq_options retry: false
 
@@ -8,6 +9,14 @@ class AddEmissionsJob
     # Emission.delete_by(email: "abhay@example.com", rating: 4)
     Emission.delete_all
 
+    emission_upload = EmissionUpload.create(
+      admin_id: 1,
+      file_name: csv_file.split("/").last,
+      published: false,
+      revised: false,
+      sector_id: 4
+    )
+
     emissions = []
 
     CSV.foreach(csv_file, headers: true) do |emission|
@@ -15,10 +24,13 @@ class AddEmissionsJob
       # Year range for city emissions
       for year_index in 1990..2019
 
+        puts emission.field(year_index.to_s) 
+
         emissions << {
           year: year_index,
-          value: emission.field(year_index.to_s),
+          value: BigDecimal(emission.field(year_index.to_s).gsub(',', '.')),
           emission_type_id: 1,
+          # territory_uf: emission.field("TERRITÓRIO"),
           territory_id: 1,
           sector_id: 4,
           economic_activity_id: 1,
@@ -29,7 +41,8 @@ class AddEmissionsJob
           level_3_id: 1,
           level_4_id: 1,
           level_5_id: 1,
-          level_6_id: 1
+          level_6_id: 1,
+          emission_upload_id: emission_upload.id
         }
 
       end
@@ -39,7 +52,7 @@ class AddEmissionsJob
     result = Emission.insert_all(emissions)
     puts "Emissions Total After --------->>>>>>>>>> #{Emission.count}"
 
-    puts result.inspect
+    # puts result.inspect
 
   end
 

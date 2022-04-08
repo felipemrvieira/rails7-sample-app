@@ -10,4 +10,5 @@ class Emission < ApplicationRecord
   belongs_to :gas
   belongs_to :economic_activity
   belongs_to :product
+  belongs_to :emission_upload, optional: true
 end

@@ -11,16 +11,18 @@ class Api::V1::TotalEmissionsController < ApplicationController
   end
 
   def consolidated_per_year
+    @file_data = EmissionUpload.joins(:sector)
+    .where(:sector => {:name => params[:sector_name]})
+    .last
+    
     @emissions = Emission.joins(:sector)
       .where(:sector => {:name => params[:sector_name]})
       .order(year: :asc)
       .group(:year)
       .sum(:value)
       .map { |n| {year: n[0], value: n[1]} }
-
-      # @emissions= Emission.where(year: 1990)
-      
-    render json: @emissions
+    
+    render json: { emissions: @emissions, file_data: @file_data }
   end
 
   def emission

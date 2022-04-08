@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-
+  
   namespace :api do
     namespace :v1 do
+      get 'emission_uploads/per_sector'
+      resources :emission_uploads
       resources :emissions, only: [:index, :create]
       resources :gases, only: [:index]
       resources :territories, only: [:index]
