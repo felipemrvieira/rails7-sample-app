@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'emission_uploads/per_sector'
       resources :emission_uploads
+      get 'emissions/consolidated'
       resources :emissions, only: [:index, :create]
       resources :gases, only: [:index]
       resources :territories, only: [:index]
@@ -11,6 +12,7 @@ Rails.application.routes.draw do
       resources :emission_types, only: [:index]
 
       get 'territories/search_city', to: 'territories#search_city'
+      get 'territories/states'
       
       resource :total_emission, only: [:show] do
         get 'emission', defaults: { format: 'json' }

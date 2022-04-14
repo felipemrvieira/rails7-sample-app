@@ -1,11 +1,14 @@
+puts "Seeding Admin"
 Admin.create("email"=>"felipemrvieira@gmail.com", "password"=>"123123" )
 
+puts "Seeding Sector"
 Sector.create("name"=>"Energia", "slug"=>"energia", "base_color"=>"#e93f37", "level_2_description"=>"Tipo de Emissão", "level_3_description"=>"Categoria", "level_4_description"=>"Subcategoria", "level_5_description"=>"Combustível", "level_6_description"=>"Finalidade / Categoria do veiculo")
 Sector.create("name"=>"Agropecuária", "slug"=>"agropecuaria", "base_color"=>"#fef353", "level_2_description"=>"Processo emissor", "level_3_description"=>"Forma de emissão", "level_4_description"=>"Processo específico", "level_5_description"=>"Tipo de atividade", "level_6_description"=>"Atividade específica")
 Sector.create("name"=>"Processos Industriais", "slug"=>"processos-industriais", "base_color"=>"#7a5248", "level_2_description"=>"Categoria", "level_3_description"=>"Atividade", "level_4_description"=>"Tipo de Processo/Produto", "level_5_description"=>"Tipo de Combustível/Insumo", "level_6_description"=>nil)
 Sector.create("name"=>"Resíduos", "slug"=>"residuos", "base_color"=>"#4caff0", "level_2_description"=>"Processo emissor", "level_3_description"=>"Atividade Emissora", "level_4_description"=>nil, "level_5_description"=>nil, "level_6_description"=>nil)
 Sector.create("name"=>"Mudança de Uso da Terra e Florestas", "slug"=>"mudanca-de-uso-da-terra-e-floresta", "base_color"=>"#a6cf3d", "level_2_description"=>nil, "level_3_description"=>nil, "level_4_description"=>nil, "level_5_description"=>nil, "level_6_description"=>nil)
- 
+
+puts "Seeding Level"
 Level.create("name"=>"Emissões pela Queima de Combustíveis", "slug"=>"emissoes-pela-queima-de-combustiveis")
 Level.create("name"=>"Industrial", "slug"=>"industrial")
 Level.create("name"=>"Alimentos e Bebidas", "slug"=>"alimentos-e-bebidas")
@@ -293,7 +296,8 @@ Level.create("name"=>"Uso de Calcário", "slug"=>"uso-de-calcario")
 Level.create("name"=>"Aplicação de Ureia", "slug"=>"aplicacao-de-ureia")
 Level.create("name"=>"Incineração", "slug"=>"incineracao")
 Level.create("name"=>"Disposição final", "slug"=>"disposicao-final")
- 
+
+puts "Seeding EmissionType"
 EmissionType.create("name"=>"Emissão", "slug"=>"emissao")
 EmissionType.create("name"=>"Bunker", "slug"=>"bunker")
 EmissionType.create("name"=>"Emissão NCI", "slug"=>"emissao-nci")
@@ -302,7 +306,8 @@ EmissionType.create("name"=>"Remoção", "slug"=>"remocao")
 EmissionType.create("name"=>"Remoção-proxy.mapbiomas", "slug"=>"remocao-proxy-mapbiomas")
 EmissionType.create("name"=>"Emissão proxy", "slug"=>"emissao-proxy")
 EmissionType.create("name"=>"Remoção proxy", "slug"=>"remocao-proxy")
- 
+
+puts "Seeding Gas"
 Gas.create("name"=>"CO2e (t) GTP-AR2", "slug"=>"co2e-t-gtp-ar2")
 Gas.create("name"=>"CO2e (t) GTP-AR4", "slug"=>"co2e-t-gtp-ar4")
 Gas.create("name"=>"CO2e (t) GTP-AR5", "slug"=>"co2e-t-gtp-ar5")
@@ -325,6 +330,7 @@ Gas.create("name"=>"HFC-125 (t)", "slug"=>"hfc-125-t")
 Gas.create("name"=>"HFC-143a (t)", "slug"=>"hfc-143a-t")
 Gas.create("name"=>"HFC-152a (t)", "slug"=>"hfc-152a-t")
  
+puts "Seeding Territory"
 Territory.create("name"=>"Acre", "slug"=>"acre", "parent_id"=>nil, "territory_type"=>"state", "ibge_cod"=>12, "acronym"=>"AC", "flag_path"=>"/12.jpg")
 Territory.create("name"=>"Alagoas", "slug"=>"alagoas", "parent_id"=>nil, "territory_type"=>"state", "ibge_cod"=>27, "acronym"=>"AL", "flag_path"=>"/27.jpg")
 Territory.create("name"=>"Amazonas", "slug"=>"amazonas", "parent_id"=>nil, "territory_type"=>"state", "ibge_cod"=>13, "acronym"=>"AM", "flag_path"=>"/13.jpg")
@@ -5959,6 +5965,7 @@ Territory.create("name"=>"TO - Xambioá", "slug"=>"to-xambioa", "parent_id"=>nil
 # Territory.create("name"=>"SP - NA", "slug"=>"sp-na", "parent_id"=>nil, "territory_type"=>nil, "ibge_cod"=>935, "acronym"=>"sp-na", "flag_path"=>nil)
 # Territory.create("name"=>"TO - NA", "slug"=>"to-na", "parent_id"=>nil, "territory_type"=>nil, "ibge_cod"=>917, "acronym"=>"to-na", "flag_path"=>nil)
  
+puts "Seeding EconomicActivity"
 EconomicActivity.create("name"=>"Agricultura", "acronym"=>"AGR", "slug"=>"agricultura", "sankey_grouping"=>"Agropecuária")
 EconomicActivity.create("name"=>"Agricultura e/ou Agropecuária", "acronym"=>"AGR/PEC", "slug"=>"agricultura-e-ou-agropecuaria", "sankey_grouping"=>"Agricultura e/ou Agropecuária")
 EconomicActivity.create("name"=>"Agropecuária", "acronym"=>"AGROPEC", "slug"=>"agropecuaria", "sankey_grouping"=>"Agropecuária")
@@ -5978,7 +5985,8 @@ EconomicActivity.create("name"=>"Saneamento Básico", "acronym"=>"SANEAMENTO", "
 EconomicActivity.create("name"=>"Transporte de Carga", "acronym"=>"TRAN_CARGA", "slug"=>"transporte-de-carga", "sankey_grouping"=>"Transporte")
 EconomicActivity.create("name"=>"Transporte de Passageiro", "acronym"=>"TRAN_PASS", "slug"=>"transporte-de-passageiro", "sankey_grouping"=>"Transporte")
 EconomicActivity.create("name"=>"Transporte", "acronym"=>"TRAN", "slug"=>"transporte", "sankey_grouping"=>"Transporte")
- 
+
+puts "Seeding Product"
 Product.create("name"=>"Ferro e Aço", "acronym"=>"ACO", "slug"=>"ferro-e-aco")
 Product.create("name"=>"Outros Alimentos e Bebidas", "acronym"=>"ALIM_BEBIDAS", "slug"=>"outros-alimentos-e-bebidas")
 Product.create("name"=>"Aluminio e Outros Não Ferrosos da Metalurgia", "acronym"=>"ALU", "slug"=>"aluminio-e-outros-nao-ferrosos-da-metalurgia")

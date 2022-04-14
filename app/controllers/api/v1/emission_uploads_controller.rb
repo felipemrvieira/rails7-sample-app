@@ -7,9 +7,11 @@ class Api::V1::EmissionUploadsController < ApplicationController
   end
 
   def per_sector
-    @emission_uploads = EmissionUpload.joins(:sector)
-    .where(:sector => {:name => params[:sector_name]})
-    .order(created_at: :desc)
+    @emission_uploads = EmissionUpload.joins(:sector, :territory)
+                          .where(:sector => {:name => params[:sector_name]})
+    
+    @emission_uploads = @emission_uploads.where(
+      :territory => {:id => params[:territory_id]}) if params[:territory_id] != "all"
     
     render json: @emission_uploads, include: :admin
   end
@@ -73,6 +75,12 @@ class Api::V1::EmissionUploadsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def emission_upload_params
-      params.require(:emission_upload).permit(:revised, :published, :file_name, :admin_id, :sector_name)
+      params.require(:emission_upload).permit(
+        :revised, 
+        :published, 
+        :file_name, 
+        :admin_id, 
+        :sector_name,
+        :territory_id)
     end
 end

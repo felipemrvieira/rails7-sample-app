@@ -2,6 +2,7 @@ class Territory < ApplicationRecord
   include Lookup
 
   has_many :emissions
+  has_many :emission_uploads
 
   enum territory_type: {
     country: 0,

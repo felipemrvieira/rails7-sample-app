@@ -4,7 +4,7 @@ class AddEmissionsJob
   include Sidekiq::Worker
   sidekiq_options retry: false
 
-  def perform(csv_file, sector_id)
+  def perform(csv_file, sector_id, territory_id)
     # Delete all emissions per sector before insert new ones
     Emission.delete_by(sector_id: sector_id)
     
@@ -13,7 +13,8 @@ class AddEmissionsJob
       file_name: csv_file.split("/").last,
       published: false,
       revised: false,
-      sector_id: sector_id
+      sector_id: sector_id,
+      territory_id: territory_id
     )
     
     emissions = []
@@ -28,7 +29,7 @@ class AddEmissionsJob
         emissions << {
           year: year_index,
           value: BigDecimal(emission.field(year_index.to_s).gsub(',', '.')),
-          emission_type_id: 1,
+          emission_type_id: rand(1..8),
           # territory_uf: emission.field("TERRITÓRIO"),
           territory_id: 1,
           sector_id: sector_id,

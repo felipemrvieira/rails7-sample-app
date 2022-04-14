@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_06_172929) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_12_175533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,8 +63,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_06_172929) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "sector_id", null: false
+    t.bigint "territory_id", null: false
     t.index ["admin_id"], name: "index_emission_uploads_on_admin_id"
     t.index ["sector_id"], name: "index_emission_uploads_on_sector_id"
+    t.index ["territory_id"], name: "index_emission_uploads_on_territory_id"
   end
 
   create_table "emissions", force: :cascade do |t|
@@ -141,6 +143,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_06_172929) do
 
   add_foreign_key "emission_uploads", "admins"
   add_foreign_key "emission_uploads", "sectors"
+  add_foreign_key "emission_uploads", "territories"
   add_foreign_key "emissions", "economic_activities"
   add_foreign_key "emissions", "emission_types"
   add_foreign_key "emissions", "emission_uploads"
