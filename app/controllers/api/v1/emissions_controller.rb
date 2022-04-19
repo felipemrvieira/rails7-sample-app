@@ -20,33 +20,62 @@ class Api::V1::EmissionsController < ApplicationController
   def consolidated
 
     sector = Sector.where(name: params[:sector_name]).first
+    city = Territory.where(ibge_cod: params[:ibge_cod]).first if params[:ibge_cod] != 'all'
 
     emissions_upload = EmissionUpload.where(
       territory_id: params[:territory_id], 
       sector_id: sector.id,
     ).last
 
-    @total = emissions_upload.emissions.joins(:territory)
-    .where(year: params[:year])
-    .order(year: :asc)
-    .group(:year)
-    .sum(:value)
-    .map { |n| {year: n[0], value: n[1]} } if emissions_upload
-    @total = [] if !emissions_upload
+  
 
     if emissions_upload
-      @by_type = emissions_upload
-      .emissions
+     if params[:ibge_cod] != 'all'
+
+      @total = emissions_upload.emissions.joins(:territory)
+      .where(:territory => {:ibge_cod => params[:ibge_cod]})
+      .where(year: params[:year])
+      .order(year: :asc)
+      .group(:year)
+      .sum(:value)
+      .map { |n| {year: n[0], value: n[1]} } if emissions_upload
+      @total = [] if !emissions_upload
+
+      @by_type = emissions_upload.emissions.joins(:territory)
+      .where(:territory => {:ibge_cod => params[:ibge_cod]})
       .where(year: params[:year])
       .group(:emission_type_id)
       .distinct
       .sum(:value)
-      @by_gas = emissions_upload
-      .emissions
+      
+      @by_gas = emissions_upload.emissions.joins(:territory)
+      .where(:territory => {:ibge_cod => params[:ibge_cod]})
       .where(year: params[:year])
       .group(:gas_id)
       .distinct
       .sum(:value)
+    
+     else
+      @total = emissions_upload.emissions
+      .where(year: params[:year])
+      .order(year: :asc)
+      .group(:year)
+      .sum(:value)
+      .map { |n| {year: n[0], value: n[1]} } if emissions_upload
+      @total = [] if !emissions_upload
+       
+      @by_type = emissions_upload.emissions
+      .where(year: params[:year])
+      .group(:emission_type_id)
+      .distinct
+      .sum(:value)
+      
+      @by_gas = emissions_upload.emissions
+      .where(year: params[:year])
+      .group(:gas_id)
+      .distinct
+      .sum(:value)
+     end
     else
       @by_type = []
       @by_gas = []
@@ -54,6 +83,7 @@ class Api::V1::EmissionsController < ApplicationController
 
   
   render json: {total: @total, by_type: @by_type, by_gas: @by_gas}, status: :ok
+  # render json: city, status: :ok
   end
 
   private

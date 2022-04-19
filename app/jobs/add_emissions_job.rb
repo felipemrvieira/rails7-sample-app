@@ -33,22 +33,31 @@ class AddEmissionsJob
     
     emissions = []
 
+    puts "Loading emission types..."
     emission_type_hash = Hash.new(:not_found)
     EmissionType.all.each do |item|
       # remove all spaces and convert to lowercase
       emission_type_hash[item.name.gsub(/\s+/, "").downcase] = item
     end
    
+    puts "Loading gases..."
     gas_hash = Hash.new(:not_found)
     Gas.all.each do |item|
       # remove all spaces and convert to lowercase
       gas_hash[item.name.gsub(/\s+/, "").downcase] = item
+    end
+   
+    puts "Loading cities..."
+    city_hash = Hash.new(:not_found)
+    Territory.city.each do |item|
+      city_hash[item.ibge_cod] = item
     end
     
     CSV.foreach(csv_file, headers: true) do |emission|
       
       # Year range for city emissions
       for year_index in 1990..2019
+        puts city_hash[emission.field("IBGE").to_i].id
         
         emissions << {
           year:                   year_index,
@@ -57,7 +66,7 @@ class AddEmissionsJob
           sector_id:              sector_id,
           gas_id:                 gas_hash[emission.field("GÁS").gsub(/\s+/, "").downcase].id,
           emission_upload_id:     emission_upload.id,
-          territory_id:           1,
+          territory_id:           city_hash[emission.field("IBGE").to_i].id,
           economic_activity_id:   1,
           product_id:             1,
           level_2_id:             1,
