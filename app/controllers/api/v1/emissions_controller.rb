@@ -86,6 +86,42 @@ class Api::V1::EmissionsController < ApplicationController
   # render json: city, status: :ok
   end
 
+  def historical
+
+    sector = Sector.where(name: params[:sector_name]).first
+    city = Territory.where(ibge_cod: params[:ibge_cod]).first if params[:ibge_cod] != 'all'
+
+    emissions_upload = EmissionUpload.where(
+      territory_id: params[:territory_id], 
+      sector_id: sector.id,
+    ).last
+
+    if emissions_upload
+      if params[:ibge_cod] != 'all'
+
+        @total = emissions_upload.emissions.joins(:territory)
+        .where(:territory => {:ibge_cod => params[:ibge_cod]})
+        .order(year: :asc)
+        .group(:year)
+        .sum(:value)
+        .map { |n| {year: n[0], value: n[1]} } if emissions_upload
+      else
+        
+        @total = emissions_upload.emissions
+        .order(year: :asc)
+        .group(:year)
+        .sum(:value)
+        .map { |n| {year: n[0], value: n[1]} } if emissions_upload
+      end
+    else
+      @total = []
+    end
+   
+  
+  render json: {total: @total}, status: :ok
+  # render json: city, status: :ok
+  end
+
   private
     def get_file
       tmp = params[:csv_file].tempfile

@@ -1,6 +1,8 @@
 class AddEmissionsJob
   require 'csv'
   require 'bigdecimal'
+  require 'objspace'
+
   include Sidekiq::Worker
   sidekiq_options retry: false
 
@@ -53,11 +55,12 @@ class AddEmissionsJob
       city_hash[item.ibge_cod] = item
     end
     
+    puts "Emissions Total Before --------->>>>>>>>>> #{Emission.count}" 
+    
     CSV.foreach(csv_file, headers: true) do |emission|
       
       # Year range for city emissions
       for year_index in 1990..2019
-        puts city_hash[emission.field("IBGE").to_i].id
         
         emissions << {
           year:                   year_index,
@@ -77,9 +80,18 @@ class AddEmissionsJob
         }
 
       end
+
+      puts "Emissions hash size --------->>>>>>>>>> #{ObjectSpace.memsize_of(emissions)}"
+      if ObjectSpace.memsize_of(emissions) >= 300000
+        puts "Bigger than 3Mb"
+        # Save emissions in database
+        result = Emission.insert_all(emissions)
+        emissions = []
+      end
+
     end
     
-    puts "Emissions Total Before --------->>>>>>>>>> #{Emission.count}" 
+    # Insert remaining emissions
     result = Emission.insert_all(emissions)
     puts "Emissions Total After --------->>>>>>>>>> #{Emission.count}"
     

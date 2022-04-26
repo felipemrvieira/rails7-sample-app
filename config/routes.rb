@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get 'emission_uploads/per_sector'
       resources :emission_uploads
       get 'emissions/consolidated'
+      get 'emissions/historical'
       resources :emissions, only: [:index, :create]
       resources :gases, only: [:index]
       resources :territories, only: [:index]
