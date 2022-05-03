@@ -31,6 +31,8 @@ gem "jbuilder"
 gem "redis", "~> 4.0"
 
 gem 'sidekiq'
+gem 'activerecord-import'
+
 # gem 'devise'
 gem 'devise_token_auth', '>= 1.2.0', git: "https://github.com/lynndylanhurley/devise_token_auth"
 

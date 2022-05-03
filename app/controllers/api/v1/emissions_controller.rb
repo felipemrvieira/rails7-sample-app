@@ -13,6 +13,8 @@ class Api::V1::EmissionsController < ApplicationController
     sector = Sector.where(name: params[:sector_name]).first
     territory = get_territory
 
+    # TaskLoggerJob.perform_later
+    # NewAddEmissionsJob.perform_later(file, sector.id, territory.id)
     AddEmissionsJob.new.perform(file, sector.id, territory.id)
     render json: {status: file}, status: :created
   end

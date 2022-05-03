@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_12_175533) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_26_172058) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,14 +56,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_12_175533) do
   end
 
   create_table "emission_uploads", force: :cascade do |t|
-    t.boolean "revised"
-    t.boolean "published"
     t.string "file_name"
     t.bigint "admin_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "sector_id", null: false
     t.bigint "territory_id", null: false
+    t.integer "status", default: 0
     t.index ["admin_id"], name: "index_emission_uploads_on_admin_id"
     t.index ["sector_id"], name: "index_emission_uploads_on_sector_id"
     t.index ["territory_id"], name: "index_emission_uploads_on_territory_id"
